@@ -1,4 +1,33 @@
+import base64
+from io import BytesIO
+from PIL import Image
+import numpy as np
 from tensorflow.keras.models import load_model
 
 model = load_model("digit_recognizer.h5")
 
+base64_string = "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"
+
+# base64_string = base64_string.split(",")[1]
+
+padding_needed = len(base64_string) % 4
+if padding_needed != 0:
+    base64_string += '=' * (4 - padding_needed)
+
+print(base64_string)
+
+image_data = base64.b64decode(base64_string)
+img = Image.open(BytesIO(image_data))
+
+img = img.convert("L")
+img = img.resize((28, 28))
+
+img_array = np.asarray(img)
+img_array = img_array / 255.0
+img_array = img_array.reshape(1, 28, 28, 1)
+
+predictions = model.predict(img_array)
+
+probabilities = predictions[0]
+predicted_digit = np.argmax(probabilities)
+print(predicted_digit)
