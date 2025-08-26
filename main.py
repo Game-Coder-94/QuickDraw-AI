@@ -7,14 +7,25 @@ import base64
 from io import BytesIO
 from PIL import Image
 import numpy as np
-from tensorflow.keras.models import load_model
 from fastapi import FastAPI
 from pydantic import BaseModel
+from tensorflow.keras.models import load_model
+from fastapi.middleware.cors import CORSMiddleware
 
 class ImagePayload(BaseModel):
     image_data: str
 
 app = FastAPI()
+
+# Add this middleware to your app
+origins = ["*"] # This allows all origins
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 @app.get("/")
 def root():
@@ -26,6 +37,7 @@ def predict(payload: ImagePayload):
     model = load_model("digit_recognizer.h5")
 
     base64_string = payload.image_data
+    base64_string = base64_string.split(",")[1]
     padding_needed = len(base64_string) % 4
     if padding_needed != 0:
         base64_string += '=' * (4 - padding_needed)
