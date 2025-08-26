@@ -68,7 +68,7 @@ async function sendPredictionRequest() {
 
     const imageData = canvas.toDataURL('image/png');
 
-    const apiUrl = 'http://127.0.0.1:8000/predict';
+    const apiUrl = 'https://vercel.com/game-coder-94s-projects/quick-draw-ai/predict';
 
     const payload = {
         image_data : imageData
