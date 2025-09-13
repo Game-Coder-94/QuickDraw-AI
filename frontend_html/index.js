@@ -68,7 +68,7 @@ async function sendPredictionRequest() {
 
     const imageData = canvas.toDataURL('image/png');
 
-    const apiUrl = 'https://quick-draw-ai.vercel.app/predict';
+    const apiUrl = 'https://quickdraw-ai-ja90.onrender.com/predict';
 
     const payload = {
         image_data : imageData
